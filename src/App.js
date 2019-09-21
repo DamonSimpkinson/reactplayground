@@ -7,41 +7,64 @@ const list = [
     title: 'React',
     url: 'https://reactjs.org/',
     author: 'Jordan Walke',
-    num_comments: 3,
+    num_comments: 2,
     points: 4,
     objectID: 0,
   },
   {
-    title: 'Reduxion',
+    title: 'Redux',
     url: 'https://redux.js.org/',
     author: 'Dan Abramov, Andrew Clark',
     num_comments: 2,
     points: 5,
     objectID: 1,
   },
+  {
+    title: 'Some Title',
+    url: 'https:www.google.com',
+    author: 'Nameless One',
+    num_comments: 2,
+    points: 3,
+    objectID: 2,
+  },
 ];
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: list,
+    };
+    this.onDismiss = this.onDismiss.bind(this);
+  }
+
+  onDismiss(id) {
+    const isNotId = item => item.objectID !== id;
+    const updatedList = this.state.list.filter(isNotId);
+    this.setState({list:updatedList});
+  }
+
   render() {
-    const helloWorld = 'Welcome to the Road to Learn React';
-    const notAgain = 'Oh No!!! Not Again!!!';
-    const array = [1, 4, 9, 16];
-    const newArray = array.map(function (x) { return x * 2});
-    console.log(newArray);
     return (
         <div className="App">
-          {list.map(function(item) {
-            return <div key={item.objectID}>
-              <span>
-                <a href={item.url}>{item.title}</a>
-              </span>
-              <span> {item.author}</span>
-              <span> {item.num_comments}</span>
-              <span> {item.points}</span>
-            </div>;
-          })}
+          {this.state.list.map(item =>
+              <div key={item.objectID}>
+                <span>
+                  <a href={item.url}>{item.title} </a>
+                </span>
+                <span>{item.author} </span>
+                <span>{item.num_comments} </span>
+                <span>{item.points} </span>
+                <span>
+                  <button
+                    onClick={() => this.onDismiss(item.objectID)}
+                    type="button">Dismiss
+                  </button>
+                </span>
+              </div>
+          )}
         </div>
-    );
+    )
   }
 }
 
